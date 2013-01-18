@@ -4,10 +4,12 @@ require         'Classes/Protocol'
 class           Network
   
   def           initialize(port)
+    @id_users = 1
     @handler_function = Protocol.new
     @port = port
     @fds = []
-    @packets = []
+    @packets = Array.new
+    @clients = Hash.new("Clients manager")
     puts "Network.initialize"
   end
 
@@ -18,10 +20,10 @@ class           Network
       # Initialize an array with server socket
       @fds << acceptor
       while (true)
-        if socket_descriptors = select(@fds, @fds, [], 10)
+        if socket_descriptors = select(@fds, [], [], 10)
           # socket_descriptors.first contain a collection of readable sockets
           readable(socket_descriptors.first, acceptor)
-          writable(socket_descriptors[1])
+          write_packets
         end
       end
     ensure
@@ -46,12 +48,16 @@ class           Network
     end
   end
 
-  def writable(writes)
-    writes.each do |client|
-      @packets.each_index do |i|
-        if (@packets[i][:id].to_s == client.object_id.to_s)
-          client.puts(@packets[i][:content])
-          @packets.delete_at(i)
+  def write_packets
+    if (@packets.empty? == false)
+      @clients.each_key do |key|
+        @packets.each_index do |i|
+          puts "fds->packet(#{@packets[i][:id].to_s})"
+          puts "fds->client(#{@clients[key].to_s})"
+          if (@packets[i][:id].to_s == key.to_s)
+            @clients[key][:socket].puts(@packets[i][:content])
+            @packets.delete_at(i)
+          end
         end
       end
     end
@@ -61,6 +67,8 @@ class           Network
     new_client = acceptor.accept
     puts "New client !"
     @fds << new_client
+    @clients[@id_users] = Client.new("guest", "all", new_client)
+    @id_users += 1
   end
 
   def           disconnect_client(client)
@@ -71,10 +79,10 @@ class           Network
 
   def handler_function(cmd, client)
     data = cmd.split(/\.?\s+/, 2)
-    p data
     if (data[0].empty? == false)
       if (@handler_function.respond_to?(data[0]))
-        @packets = @handler_function.send(data[0].to_sym, data, client, @packets)
+        @packets = @handler_function.send(data[0].to_sym, client,
+                                          @clients, @packets, data)
       else
         puts "Command #{data[0]} doesn't exist !"
       end
