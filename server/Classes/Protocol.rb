@@ -11,9 +11,19 @@ class           Protocol
 
   def           nick(src_id, clients, packets, data)
     puts "Nick function"
-    if (data.length == 2)
+    exist = false
+    if (data.length >= 2)
+      cmd = data[1].split(/\.?\s+/, 2)
+      p clients
       clients.each_key do |key|
-        packets << Packet.new(key, "toto42")
+        exist = true if (clients[key][:name] == cmd[0])
+      end
+      #exist = clients.any? { |val| val[:name] == cmd[0] }
+      if (exist == false)
+        clients[src_id][:name] = cmd[0]
+        packets << Packet.new(src_id, "your name is now ===> #{cmd[0]} !")
+      else
+        packets << Packet.new(src_id, "The nick #{cmd[0]} already exist")        
       end
       return packets, clients
     else
