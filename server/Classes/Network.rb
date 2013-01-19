@@ -83,20 +83,25 @@ class           Network
   def           disconnect_client(client, src_id)
     puts "Bye bye !"
     @fds.delete(client)
+    @clients.each_key do |key|
+      if (key != src_id)
+        @packets << Packet.new(key, "#{@clients[src_id][:name]} is disconnected !")
+      end
+    end
     @clients.delete(src_id)
-    client.close    
+    client.close
   end
 
   def           handler_function(cmd, src_id)
     data = cmd.split(/\.?\s+/, 2)
     if (data[0].empty? == false)
       if (@handler_function.respond_to?(data[0]))
-        if (data[0] == "broadcast_message")
-          @packets = @handler_function.send(data[0].to_sym, src_id,
-                                            @clients, @packets, data)
-        else
+        if (data[0] == "nick")
           @packets, @clients = @handler_function.send(data[0].to_sym, src_id,
                                                       @clients, @packets, data)
+        else
+          @packets = @handler_function.send(data[0].to_sym, src_id,
+                                            @clients, @packets, data)
         end
       else
         puts "Command #{data[0]} doesn't exist !"
