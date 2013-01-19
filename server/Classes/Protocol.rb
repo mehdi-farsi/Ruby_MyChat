@@ -1,4 +1,4 @@
-# This class Provide handler of functions.
+# This class provide handler of functions.
 # A function represent a command defined by the protocol
 
 Packet = Struct.new(:id, :content)
@@ -9,10 +9,6 @@ class           Protocol
     puts "handler command is now ready"
   end
 
-  # :src user that emit packet
-  # :clients list of online clients
-  # :packets list of packets ready to be send
-  # :data content to be treated
   def           broadcast_message(client, clients, packets, data)
     if (data.length == 2)
       clients.each_key do |key|

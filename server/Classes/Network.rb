@@ -1,3 +1,5 @@
+# This class implement the Network layer of the server.
+
 require         'socket'
 require         'Classes/Protocol'
 
@@ -7,9 +9,13 @@ class           Network
     @id_users = 1
     @handler_function = Protocol.new
     @port = port
+    # Used only in select()
     @fds = []
-    @packets = Array.new
+    # Used for the Protocol part
+    # In order to ease the communication
+    # Between each client
     @clients = Hash.new("Clients manager")
+    @packets = Array.new
     puts "Network.initialize"
   end
 
