@@ -42,8 +42,8 @@ class           Protocol
         if (key != src_id)
           packets << Packet.new(key, "bmsg (#{clients[src_id][:name]}[public])>>: #{data[1]}")
         end
-        packets << Packet.new(key, "bmsg OK")
       end
+      packets << Packet.new(src_id, "bmsg OK")
       return packets
     else
       packets << Packet.new(src_id, "bmsg EMPTY")
@@ -54,7 +54,7 @@ class           Protocol
   def           pmsg(src_id, clients, packets, data)
     if (data[1].chomp != "")
       cmd = data[1].split(/\.?\s+/, 2)
-      if (data[1].chomp != "")
+      if (cmd[1].chomp != "")
         clients.each_key do |key|
           if (key != src_id && clients[key][:name] == cmd[0])
             packets << Packet.new(key, "pmsg (#{clients[src_id][:name]}[private])>> #{cmd[1]}")
