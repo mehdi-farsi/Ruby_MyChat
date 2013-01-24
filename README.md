@@ -10,17 +10,17 @@ Installation of [Ruby](http://www.ruby-lang.org/en/downloads).
 
 ##Usage:##
 
-###Client###
+###Client:###
 
 In directory ```Ruby_MyChat/client```:
 
-```ruby main.rb```
+```ruby client.rb```
 
-###Server###
+###Server:###
 
 In directory ```Ruby_MyChat/server```:
 
-```ruby main.rb```
+```ruby server.rb```
 
 ###Commands:###
 
