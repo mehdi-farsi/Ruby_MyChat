@@ -63,7 +63,7 @@ Usage:
 (guest1)>> bmsg YOUR_MESSAGE
 ```
 
-####Command 'bmsg'####
+####Command 'pmsg'####
 
 Send a message to a specific user.
 
