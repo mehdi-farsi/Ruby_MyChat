@@ -9,6 +9,17 @@ class           Protocol
     puts "handler command is now ready"
   end
 
+  def           list(src_id, clients, packets, data)
+    list_clients = ""
+    clients.each_key do |key|
+      if (clients[key][:name] != clients[src_id][:name])
+        list_clients += "#{clients[key][:name]} "
+      end
+    end
+    packets << Packet.new(src_id, list_clients)
+    return packets
+  end
+
   def           nick(src_id, clients, packets, data)
     puts "Nick function"
     exist = false
@@ -22,12 +33,12 @@ class           Protocol
         clients[src_id][:name] = cmd[0]
         packets << Packet.new(src_id, "your name is now ===> #{cmd[0]} !")
       else
-        packets << Packet.new(src_id, "The nick #{cmd[0]} already exist")        
+        packets << Packet.new(src_id, "The nick #{cmd[0]} already exist")
       end
-      return packets, clients
     else
       puts "Usage: nick USERNAME"
-    end    
+    end
+      return packets, clients
   end
 
   def           broadcast_msg(src_id, clients, packets, data)
@@ -42,6 +53,7 @@ class           Protocol
     else
       puts "Usage: broadcast_message MESSAGE"
     end
+    return packets
   end
 
   def           private_msg(src_id, clients, packets, data)
@@ -56,9 +68,9 @@ class           Protocol
           end
         end
       end
-      return packets
     else
       puts "Usage: broadcast_message MESSAGE"
     end
+      return packets
   end
 end

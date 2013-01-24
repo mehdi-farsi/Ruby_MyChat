@@ -16,7 +16,6 @@ class           Network
     # Between each client
     @clients = Hash.new("Clients manager")
     @packets = Array.new
-    puts "Network.initialize"
   end
 
   def           main_loop
@@ -76,7 +75,8 @@ class           Network
     new_client = acceptor.accept
     puts "New client !"
     @fds << new_client
-    @clients[@id_users] = Client.new("guest", "all", new_client)
+    @clients[@id_users] = Client.new("guest#{@id_users}", "all", new_client)
+    @packets << Packet.new(@id_users, @clients[@id_users][:name])
     @id_users += 1
   end
 
@@ -97,6 +97,7 @@ class           Network
     if (data[0].empty? == false)
       if (@handler_function.respond_to?(data[0]))
         if (data[0] == "nick")
+          puts "data[0] ==> nick"
           @packets, @clients = @handler_function.send(data[0].to_sym, src_id,
                                                       @clients, @packets, data)
         else
@@ -104,7 +105,7 @@ class           Network
                                             @clients, @packets, data)
         end
       else
-        puts "Command #{data[0]} doesn't exist !"
+        @packets << Packet.new(src_id, "Command #{data[0]} doesn't exist !")
       end
     end
   end
