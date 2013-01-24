@@ -17,7 +17,7 @@ class           Protocol
     return packets
   end
 
-  def           nick(src_id, clients, packets, data)
+  def           name(src_id, clients, packets, data)
     exist = false
     if (data[1].chomp != "")
       cmd = data[1].split(/\.?\s+/, 2)
@@ -27,12 +27,12 @@ class           Protocol
       end
       if (exist == false)
         clients[src_id][:name] = cmd[0]
-        packets << Packet.new(src_id, "nick YES #{cmd[0]}")
+        packets << Packet.new(src_id, "name YES #{cmd[0]}")
       else
-        packets << Packet.new(src_id, "nick NO #{cmd[0]}")
+        packets << Packet.new(src_id, "name NO #{cmd[0]}")
       end
     else
-      packets << Packet.new(src_id, "nick EMPTY")
+      packets << Packet.new(src_id, "name EMPTY")
     end
     return packets, clients
   end

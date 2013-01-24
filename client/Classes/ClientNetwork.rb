@@ -54,7 +54,6 @@ class           ClientNetwork
         print "(#{@client[:name]})>> "
       else
         cmd = STDIN.gets
-        p cmd
         if (cmd.chomp.empty? == false)
           @socket_server.puts(cmd)
         else
@@ -78,7 +77,7 @@ class           ClientNetwork
     data = cmd.chomp.split(/\.?\s+/, 2)
     if (data[0].empty? == false)
      if (@handler_function.respond_to?(data[0]))
-       if (data[0] == "nick")
+       if (data[0] == "name")
          @client[:name] = @handler_function.send(data[0].to_sym, data, @client[:name])
        else
          @handler_function.send(data[0].to_sym, data)

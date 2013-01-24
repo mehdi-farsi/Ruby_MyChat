@@ -99,8 +99,7 @@ class           Network
     data = cmd.split(/\.?\s+/, 2)
     if (data[0].empty? == false)
       if (@handler_function.respond_to?(data[0]))
-        if (data[0] == "nick")
-          puts "data[0] ==> nick"
+        if (data[0] == "name")
           @packets, @clients = @handler_function.send(data[0].to_sym, src_id,
                                                       @clients, @packets, data)
         else

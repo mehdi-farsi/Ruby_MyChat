@@ -17,16 +17,16 @@ class           Protocol
     puts "\n********************"
   end
 
-  def           nick(data, name)
+  def           name(data, name)
     puts "********************"
     cmd = data[1].split(/\.?\s+/)
     if (cmd[0] == "YES")
       name = cmd[1].chomp
-      puts "Your nick is now '#{cmd[1].chomp}' !"
+      puts "Your nickname is now '#{cmd[1].chomp}' !"
     elsif (cmd[0] == "NO")
       puts "'#{cmd[1].chomp}' is not available !"
     elsif(cmd[0] == "EMPTY")
-      puts "USAGE: nick USERNAME"
+      puts "USAGE: name USERNAME"
     end
     puts "********************"
     return (name)

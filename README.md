@@ -24,7 +24,9 @@ In Ruby_MyChat/server:
 
 ###Commands:###
 
-####Command 'list'#### : Get list of online users.
+####Command 'list'####
+
+Get list of online users.
 
 Usage:
 
@@ -37,6 +39,18 @@ guest3
 guest4
 
 (guest1)>> 
+```
+
+####Command 'name'####
+
+Allow to customize his nickname. The server send you a notification if the nickname already exist.
+
+Usage:
+
+```
+(guest1)>> name kobe
+Your nickname is now 'kobe' !
+(kobe)>> 
 ```
 
 ###Thanks a lot for your passage on my page.###
