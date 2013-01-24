@@ -31,6 +31,8 @@ class           Network
           write_packets
         end
       end
+    rescue Interrupt
+      puts "\nBye Bye !"
     ensure
       @fds.each {|c| c.close}
     end

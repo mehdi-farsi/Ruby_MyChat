@@ -15,16 +15,20 @@ class           ClientNetwork
     @handler_function = Protocol.new
     @fds = []
   end
+  
+  def           launch_client
+    @socket_server = TCPSocket.open(@address, @port)
+    @client = Client.new("guest", "all")
+    packet = @socket_server.gets
+    @client[:name] = packet.split(/\.?\s+/).first
+    puts "You are now connected on MyChat #{@address}:#{@port} with nick #{@client[:name]}"
+    @fds << @socket_server
+    @fds << STDIN
+  end
 
   def           main_loop
     begin
-      @socket_server = TCPSocket.open(@address, @port)
-      @client = Client.new("guest", "all")
-      packet = @socket_server.gets
-      @client[:name] = packet.split(/\.?\s+/).first
-      puts "You are now connected on MyChat #{@address}:#{@port} with nick #{@client[:name]}"
-      @fds << @socket_server
-      @fds << STDIN
+      launch_client
       # Activation of real-time displaying
       STDOUT.sync = true
       print "(#{@client[:name]})>> "
@@ -34,6 +38,9 @@ class           ClientNetwork
         end
       end
       @socket_server.close
+    rescue Interrupt
+      @socket_server.close
+      puts "\nBye Bye !"
     ensure
     end
   end
@@ -47,6 +54,7 @@ class           ClientNetwork
         print "(#{@client[:name]})>> "
       else
         cmd = STDIN.gets
+        p cmd
         if (cmd.chomp.empty? == false)
           @socket_server.puts(cmd)
         else
@@ -58,6 +66,11 @@ class           ClientNetwork
   
   def           get_reply_server(client)
     data = client.gets
+    if (data == nil)
+      @socket_server.close
+      puts "\nServer MyChat #{@address}:#{@port} brutally disconnected !"
+      exit
+    end
     handler_function(data)
   end
 

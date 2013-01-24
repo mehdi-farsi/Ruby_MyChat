@@ -5,9 +5,6 @@ Packet = Struct.new(:id, :content)
 Client = Struct.new(:name, :room, :socket)
 
 class           Protocol
-  def initialize
-    puts "handler command is now ready"
-  end
 
   def           list(src_id, clients, packets, data)
     list_clients = ""
@@ -21,7 +18,6 @@ class           Protocol
   end
 
   def           nick(src_id, clients, packets, data)
-    puts "Nick function"
     exist = false
     if (data[1].chomp != "")
       cmd = data[1].split(/\.?\s+/, 2)
@@ -41,40 +37,37 @@ class           Protocol
     return packets, clients
   end
 
-  def           broadcast_msg(src_id, clients, packets, data)
-    puts "broadcast message function"
-    
+  def           bmsg(src_id, clients, packets, data)
     if (data[1].chomp != "")
       clients.each_key do |key|
         if (key != src_id)
-          packets << Packet.new(key, "broadcast_msg (#{clients[src_id][:name]}[public])>>: #{data[1]}")
+          packets << Packet.new(key, "bmsg (#{clients[src_id][:name]}[public])>>: #{data[1]}")
         end
-        packets << Packet.new(key, "broadcast_msg OK")
+        packets << Packet.new(key, "bmsg OK")
       end
       return packets
     else
-      packets << Packet.new(src_id, "broadcast_msg EMPTY")
+      packets << Packet.new(src_id, "bmsg EMPTY")
     end
     return packets
   end
 
-  def           private_msg(src_id, clients, packets, data)
-    puts "private message function"
+  def           pmsg(src_id, clients, packets, data)
     if (data[1].chomp != "")
       cmd = data[1].split(/\.?\s+/, 2)
       if (data[1].chomp != "")
         clients.each_key do |key|
           if (key != src_id && clients[key][:name] == cmd[0])
-            packets << Packet.new(key, "private_msg (#{clients[src_id][:name]}[private])>> #{cmd[1]}")
+            packets << Packet.new(key, "pmsg (#{clients[src_id][:name]}[private])>> #{cmd[1]}")
             break
           end
         end
-        packets << Packet.new(src_id, "private_msg OK")
+        packets << Packet.new(src_id, "pmsg OK")
       else
-        packets << Packet.new(src_id, "private_msg EMPTY")
+        packets << Packet.new(src_id, "pmsg EMPTY")
       end
     else
-      packets << Packet.new(src_id, "private_msg EMPTY")
+      packets << Packet.new(src_id, "pmsg EMPTY")
     end
       return packets
   end
