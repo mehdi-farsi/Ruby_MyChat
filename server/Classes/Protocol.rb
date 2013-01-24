@@ -16,7 +16,7 @@ class           Protocol
         list_clients += "#{clients[key][:name]} "
       end
     end
-    packets << Packet.new(src_id, list_clients)
+    packets << Packet.new(src_id, "list #{list_clients}")
     return packets
   end
 
