@@ -64,6 +64,7 @@ class           Network
         @packets.each_index do |i|
           if (@packets[i][:id].to_s == key.to_s)
             @clients[key][:socket].puts(@packets[i][:content])
+            puts "packet sent to user #{key} : #{@packets[i][:content]}"
             @packets.delete_at(i)
           end
         end
