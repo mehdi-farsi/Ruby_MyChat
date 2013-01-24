@@ -66,7 +66,8 @@ class           Network
         @packets.each_index do |i|
           if (@packets[i][:id].to_s == key.to_s)
             @clients[key][:socket].puts(@packets[i][:content])
-            puts "packet sent to user #{key} : #{@packets[i][:content]}"
+            print "\033[32m[#{Time.now.inspect}]\033[0m "
+            puts "packet to user #{key}: #{@packets[i][:content]}"
             @packets.delete_at(i)
           end
         end
@@ -76,6 +77,7 @@ class           Network
 
   def           new_client(acceptor)
     new_client = acceptor.accept
+    print "\033[34m[#{Time.now.inspect}]\033[0m "
     puts "New client !"
     @fds << new_client
     @clients[@id_users] = Client.new("guest#{@id_users}", "all", new_client)
@@ -84,7 +86,6 @@ class           Network
   end
 
   def           disconnect_client(client, src_id)
-    puts "Bye bye !"
     @fds.delete(client)
     @clients.each_key do |key|
       if (key != src_id)
@@ -93,6 +94,8 @@ class           Network
     end
     @clients.delete(src_id)
     client.close
+    print "\033[31m[#{Time.now.inspect}]\033[0m "
+    puts "Client #{src_id} is disconnected !"
   end
 
   def           handler_function(cmd, src_id)

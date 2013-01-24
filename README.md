@@ -10,6 +10,7 @@ Installation of [Ruby](http://www.ruby-lang.org/en/downloads).
 
 ##Usage:##
 
+
 ###Client:###
 
 In directory ```Ruby_MyChat/client```:
@@ -73,6 +74,21 @@ Usage:
 (guest1)>> pmsg USER YOUR_MESSAGE
 ```
 
+##Specifics:##
+
+####Server:####
+
+- Synchronous I/O multiplexing (select).
+- Treatment of brutal disconnections of clients and server.
+- logs are displayed with a color system:
+  - Blue  => new client
+  - Red   => client disconnected
+  - Green => packet sent.
+
+##Under development:##
+
+- System of room (similar to IRC)
+- Command quit
 
 ******
 ###Thanks a lot for your passage on my page.###

@@ -31,7 +31,7 @@ class           ClientNetwork
       launch_client
       # Activation of real-time displaying
       STDOUT.sync = true
-      print "(#{@client[:name]})>> "
+      print "\033[32m(#{@client[:name]})>>\033[0m "
       while (true)
         if (socket_descriptors = select(@fds, [], []))
           readable(socket_descriptors.first)
@@ -51,13 +51,13 @@ class           ClientNetwork
     reads.each do |client|
       if (client.object_id.to_s == @socket_server.object_id.to_s)
         get_reply_server(client)
-        print "(#{@client[:name]})>> "
+        print "\033[32m(#{@client[:name]})>>\033[0m "
       else
         cmd = STDIN.gets
         if (cmd.chomp.empty? == false)
           @socket_server.puts(cmd)
         else
-          print "(#{@client[:name]})>> "
+          print "\033[32m(#{@client[:name]})>>\033[0m "
         end
       end
     end

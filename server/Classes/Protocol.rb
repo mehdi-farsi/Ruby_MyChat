@@ -21,7 +21,6 @@ class           Protocol
     exist = false
     if (data[1].chomp != "")
       cmd = data[1].split(/\.?\s+/, 2)
-      p clients
       clients.each_key do |key|
         exist = true if (clients[key][:name] == cmd[0])
       end
