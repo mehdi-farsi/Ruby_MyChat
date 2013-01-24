@@ -80,15 +80,21 @@ Usage:
 
 - Synchronous I/O multiplexing (select).
 - Treatment of brutal disconnections of clients and server.
-- logs are displayed with a color system:
-  - Blue  => new client
-  - Red   => client disconnected
+- Logs are displayed with a color system:
+  - Blue  => new client.
+  - Red   => client disconnected.
   - Green => packet sent.
+
+####Client:####
+
+- Synchronous I/O multiplexing (select).
+- Displaying of a prompt.
+- Real-time displaying with STDOUT.sync.
 
 ##Under development:##
 
-- System of room (similar to IRC)
-- Command 'quit'
+- System of room (similar to IRC).
+- Command 'quit'.
 
  
  
