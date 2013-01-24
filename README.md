@@ -24,7 +24,7 @@ In Ruby_MyChat/server:
 
 ###Commands:###
 
-####Command 'list'####: Get list of online users.
+####Command 'list'#### : Get list of online users.
 
 Usage:
 
