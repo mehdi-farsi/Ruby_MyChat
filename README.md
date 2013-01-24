@@ -1,9 +1,12 @@
 My Chat
 ===========
 
-Simple Client/Server app implemented in Ruby (under development..).
+Client/Server app implemented in Ruby.
 It implements an ASCII communication protocol.
 
+##Required:##
+
+```You have to install [Ruby](http://www.ruby-lang.org/en/downloads/)```
 
 ###Thanks a lot for your passage on my page.###
 
