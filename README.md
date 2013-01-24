@@ -30,14 +30,14 @@ Get list of online users.
 
 Usage:
 
-```(guest1)>> list
-********************
+```
+(guest1)>> list
+
 List of online users
 guest2
 guest3
 guest4
 
-********************
 (guest1)>> 
 ```
 
