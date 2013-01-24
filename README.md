@@ -89,7 +89,7 @@ Usage:
 
 - Synchronous I/O multiplexing (select).
 - Displaying of a prompt.
-- Real-time displaying with STDOUT.sync.
+- Real-time displaying with ```STDOUT.sync```.
 
 ##Under development:##
 
