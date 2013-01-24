@@ -79,9 +79,7 @@ Usage:
 ####Server:####
 
 - Synchronous I/O multiplexing (select).
-
 - Treatment of brutal disconnections of clients and server.
-
 - logs are displayed with a color system:
   - Blue  => new client
   - Red   => client disconnected
