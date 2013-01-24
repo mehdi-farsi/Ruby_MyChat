@@ -23,7 +23,7 @@ class           Protocol
   def           nick(src_id, clients, packets, data)
     puts "Nick function"
     exist = false
-    if (data.length >= 2)
+    if (data[1].chomp != "")
       cmd = data[1].split(/\.?\s+/, 2)
       p clients
       clients.each_key do |key|
@@ -31,45 +31,50 @@ class           Protocol
       end
       if (exist == false)
         clients[src_id][:name] = cmd[0]
-        packets << Packet.new(src_id, "your name is now ===> #{cmd[0]} !")
+        packets << Packet.new(src_id, "nick YES #{cmd[0]}")
       else
-        packets << Packet.new(src_id, "The nick #{cmd[0]} already exist")
+        packets << Packet.new(src_id, "nick NO #{cmd[0]}")
       end
     else
-      puts "Usage: nick USERNAME"
+      packets << Packet.new(src_id, "nick EMPTY")
     end
-      return packets, clients
+    return packets, clients
   end
 
   def           broadcast_msg(src_id, clients, packets, data)
     puts "broadcast message function"
-    if (data.length == 2)
+    
+    if (data[1].chomp != "")
       clients.each_key do |key|
         if (key != src_id)
-          packets << Packet.new(key, "#{clients[src_id][:name]}: #{data[1]}")
+          packets << Packet.new(key, "broadcast_msg (#{clients[src_id][:name]}[public])>>: #{data[1]}")
         end
+        packets << Packet.new(key, "broadcast_msg OK")
       end
       return packets
     else
-      puts "Usage: broadcast_message MESSAGE"
+      packets << Packet.new(src_id, "broadcast_msg EMPTY")
     end
     return packets
   end
 
   def           private_msg(src_id, clients, packets, data)
     puts "private message function"
-    if (data.length == 2)
+    if (data[1].chomp != "")
       cmd = data[1].split(/\.?\s+/, 2)
-      if (data.length == 2)
+      if (data[1].chomp != "")
         clients.each_key do |key|
           if (key != src_id && clients[key][:name] == cmd[0])
-            packets << Packet.new(key, "#{clients[src_id][:name]}: #{cmd[1]}")
+            packets << Packet.new(key, "private_msg (#{clients[src_id][:name]}[private])>> #{cmd[1]}")
             break
           end
         end
+        packets << Packet.new(src_id, "private_msg OK")
+      else
+        packets << Packet.new(src_id, "private_msg EMPTY")
       end
     else
-      puts "Usage: broadcast_message MESSAGE"
+      packets << Packet.new(src_id, "private_msg EMPTY")
     end
       return packets
   end

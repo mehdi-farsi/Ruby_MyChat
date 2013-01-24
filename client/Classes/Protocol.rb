@@ -18,19 +18,47 @@ class           Protocol
     else
       puts "No client online !"
     end
-    puts "********************"
+    puts "\n********************"
   end
 
-  def           nick(data)
-    puts "Nick function"
+  def           nick(data, name)
+    puts "********************"
+    cmd = data[1].split(/\.?\s+/)
+    if (cmd[0] == "YES")
+      name = cmd[1].chomp
+      puts "Your nick is now '#{cmd[1].chomp}' !"
+    elsif (cmd[0] == "NO")
+      puts "'#{cmd[1].chomp}' is not available !"
+    elsif(cmd[0] == "EMPTY")
+      puts "USAGE: nick USERNAME"
+    end
+    puts "********************"
+    return (name)
   end
 
   def           broadcast_msg(data)
-    puts "broadcast message function"
+
+    cmd = data[1].split(/\.?\s+/)
+    if (cmd[0] == "OK")
+      return
+    end
+    if(cmd[0] == "EMPTY")
+      puts "\nUSAGE: broadcast_msg MESSAGE"
+    else
+      puts "\n#{data[1]}"
+    end
   end
 
   def           private_msg(data)
-    puts "private message function"
+    cmd = data[1].split(/\.?\s+/)
+    if (cmd[0] == "OK")
+      return
+    end
+    if(cmd[0] == "EMPTY")
+      puts "\nUSAGE: private_msg MESSAGE"
+    else
+      puts "\n#{data[1]}"
+    end
   end
 
 end

@@ -33,8 +33,8 @@ class           ClientNetwork
           readable(socket_descriptors.first)
         end
       end
-    ensure
       @socket_server.close
+    ensure
     end
   end
 
@@ -64,10 +64,14 @@ class           ClientNetwork
   def           handler_function(cmd)
     data = cmd.chomp.split(/\.?\s+/, 2)
     if (data[0].empty? == false)
-      if (@handler_function.respond_to?(data[0]))
-        @packets = @handler_function.send(data[0].to_sym, data)
-      else
-        print "MyChat [#{@address}:#{@port}] => #{cmd}\n"
+     if (@handler_function.respond_to?(data[0]))
+       if (data[0] == "nick")
+         @client[:name] = @handler_function.send(data[0].to_sym, data, @client[:name])
+       else
+         @handler_function.send(data[0].to_sym, data)
+       end
+     else
+       print "MyChat [#{@address}:#{@port}] => #{cmd}\n"
       end
     end
   end
