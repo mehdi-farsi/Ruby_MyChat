@@ -12,13 +12,13 @@ Installation of [Ruby](http://www.ruby-lang.org/en/downloads).
 
 ###Client###
 
-In Ruby_MyChat/client:
+In directory ```Ruby_MyChat/client```:
 
 ```ruby main.rb```
 
 ###Server###
 
-In Ruby_MyChat/server:
+In directory ```Ruby_MyChat/server```:
 
 ```ruby main.rb```
 
@@ -53,6 +53,29 @@ Your nickname is now 'kobe' !
 (kobe)>> 
 ```
 
+####Command 'bmsg'####
+
+Broadcast message to all clients.
+
+Usage:
+
+```
+(guest1)>> bmsg YOUR_MESSAGE
+```
+
+####Command 'bmsg'####
+
+Send a message to a specific user.
+
+Usage:
+
+```
+(guest1)>> pmsg USER YOUR_MESSAGE
+```
+
+
+******
 ###Thanks a lot for your passage on my page.###
 
 BTW, you can find me on my LinkedIn [Profile](http://cn.linkedin.com/pub/mehdi-farsi/48/ba9/336/en).
+******
